@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="CALC//01 – A mathematical workstation for Web Programming Lab 7. Perform calculations using a keypad and HTML form elements with JavaScript." />
+  <title>CALC//01 | Mathematical Workstation</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== DECORATIVE BACKGROUND SYMBOLS (CSS only, no images) ===== -->
+  <div class="bg-symbols" aria-hidden="true">
+    <span>+</span>
+    <span>−</span>
+    <span>×</span>
+    <span>÷</span>
+    <span>=</span>
+    <span>Σ</span>
+    <span>π</span>
+    <span>∞</span>
+    <span>√</span>
+    <span>∂</span>
+    <span>+</span>
+    <span>÷</span>
+    <span>×</span>
+    <span>=</span>
+    <span>Σ</span>
+    <span>−</span>
+  </div>
+
+  <!-- ===== SITE HEADER ===== -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="header-brand">
+        <h1 class="brand-title">CALC<span class="brand-slash">//</span>01</h1>
+        <p class="brand-sub">MATHEMATICAL WORKSTATION</p>
+      </div>
+      <div class="header-right">
+        <span class="keyboard-hint">⌨ Keyboard supported</span>
+        <div class="status-badge">
+          <span class="status-dot"></span>
+          <span class="status-text">SYSTEM READY</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="main-content">
+    <div class="workstation">
+
+      <!-- ══════════════════════════════════════
+           LEFT COLUMN — Main Calculator Keypad
+           ══════════════════════════════════════ -->
+      <section class="col-left" aria-label="Calculator Keypad">
+
+        <!-- Display screen -->
+        <div class="calc-display" id="calcDisplay">
+          <div class="display-expression" id="displayExpression">&nbsp;</div>
+          <div class="display-result" id="displayResult">0</div>
+        </div>
+
+        <!-- Keypad grid -->
+        <div class="keypad" id="keypad">
+
+          <!-- Row 1: AC DEL % ÷ -->
+          <button class="key key-utility" id="keyAC"      onclick="clearCalc()"           aria-label="All Clear">AC</button>
+          <button class="key key-utility" id="keyDEL"     onclick="deleteLast()"          aria-label="Delete last">DEL</button>
+          <button class="key key-utility" id="keyPercent" onclick="inputKey('%')"          aria-label="Percent">%</button>
+          <button class="key key-operator" id="keyDiv"    onclick="inputKey('÷')"          aria-label="Divide">÷</button>
+
+          <!-- Row 2: 7 8 9 × -->
+          <button class="key key-number"  id="key7"       onclick="inputKey('7')"          aria-label="7">7</button>
+          <button class="key key-number"  id="key8"       onclick="inputKey('8')"          aria-label="8">8</button>
+          <button class="key key-number"  id="key9"       onclick="inputKey('9')"          aria-label="9">9</button>
+          <button class="key key-operator" id="keyMul"    onclick="inputKey('×')"          aria-label="Multiply">×</button>
+
+          <!-- Row 3: 4 5 6 − -->
+          <button class="key key-number"  id="key4"       onclick="inputKey('4')"          aria-label="4">4</button>
+          <button class="key key-number"  id="key5"       onclick="inputKey('5')"          aria-label="5">5</button>
+          <button class="key key-number"  id="key6"       onclick="inputKey('6')"          aria-label="6">6</button>
+          <button class="key key-operator" id="keySub"    onclick="inputKey('−')"          aria-label="Subtract">−</button>
+
+          <!-- Row 4: 1 2 3 + -->
+          <button class="key key-number"  id="key1"       onclick="inputKey('1')"          aria-label="1">1</button>
+          <button class="key key-number"  id="key2"       onclick="inputKey('2')"          aria-label="2">2</button>
+          <button class="key key-number"  id="key3"       onclick="inputKey('3')"          aria-label="3">3</button>
+          <button class="key key-operator" id="keyAdd"    onclick="inputKey('+')"          aria-label="Add">+</button>
+
+          <!-- Row 5: 0 . = (0 spans 2 cols) -->
+          <button class="key key-number key-zero" id="key0" onclick="inputKey('0')"        aria-label="0">0</button>
+          <button class="key key-number"  id="keyDot"     onclick="inputKey('.')"          aria-label="Decimal point">.</button>
+          <button class="key key-equals"  id="keyEquals"  onclick="computeResult()"        aria-label="Equals">=</button>
+
+        </div>
+
+      </section>
+
+      <!-- ══════════════════════════════════════
+           RIGHT COLUMN — Form Mode + History
+           ══════════════════════════════════════ -->
+      <aside class="col-right" aria-label="Form Mode and History">
+
+        <!-- ── FORM MODE PANEL ── -->
+        <section class="panel form-panel" aria-label="Form Mode">
+          <div class="panel-label">FORM MODE</div>
+
+          <!--
+            HTML form elements — required by the lab assignment:
+            "using form elements and JavaScript"
+          -->
+          <form id="calculatorForm" novalidate>
+
+            <!-- First Number -->
+            <div class="input-group">
+              <label class="input-label" for="num1">FIRST NUMBER</label>
+              <input
+                class="number-input"
+                type="number"
+                id="num1"
+                name="firstNumber"
+                placeholder="Enter first number"
+                autocomplete="off"
+              />
+            </div>
+
+            <!-- Second Number -->
+            <div class="input-group">
+              <label class="input-label" for="num2">SECOND NUMBER</label>
+              <input
+                class="number-input"
+                type="number"
+                id="num2"
+                name="secondNumber"
+                placeholder="Enter second number"
+                autocomplete="off"
+              />
+            </div>
+
+            <!-- Operation Select Dropdown -->
+            <div class="input-group">
+              <label class="input-label" for="operationSelect">OPERATION</label>
+              <select class="operation-select" id="operationSelect" name="operation">
+                <option value="add">Addition  ( + )</option>
+                <option value="subtract">Subtraction  ( − )</option>
+                <option value="multiply">Multiplication  ( × )</option>
+                <option value="divide">Division  ( ÷ )</option>
+              </select>
+            </div>
+
+            <!-- Submit Button -->
+            <button
+              type="button"
+              class="form-calc-btn"
+              id="formCalcBtn"
+              onclick="formCalculate()"
+            >
+              CALCULATE RESULT
+            </button>
+
+          </form>
+
+          <!-- Form Result Area -->
+          <div class="form-result-area" id="formResultArea">
+            <div class="form-result-label">RESULT</div>
+            <div class="form-result-value" id="formResultValue">—</div>
+            <div class="form-result-equation" id="formResultEquation"></div>
+          </div>
+
+        </section>
+
+        <!-- ── CALCULATION HISTORY PANEL ── -->
+        <section class="panel history-panel" aria-label="Calculation History">
+          <div class="panel-label-row">
+            <div class="panel-label">CALCULATION HISTORY</div>
+            <button class="clear-history-btn" id="clearHistoryBtn" onclick="clearHistory()">
+              CLEAR HISTORY
+            </button>
+          </div>
+
+          <ul class="history-list" id="historyList">
+            <li class="history-empty" id="historyEmpty">No calculations yet.</li>
+          </ul>
+        </section>
+
+      </aside>
+    </div>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span class="footer-brand">CALC<span class="brand-slash">//</span>01</span>
+      <span class="footer-divider">|</span>
+      <span class="footer-lab">WEB PROGRAMMING LAB 7</span>
+      <span class="footer-divider">|</span>
+      <span class="footer-copy">© 2026</span>
+    </div>
+  </footer>
+
+  <!-- External JavaScript — all logic lives in script.js -->
+  <script src="script.js"></script>
+</body>
+</html>
